@@ -10,7 +10,7 @@
 
     <!-- Help auto scale for desktop & mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUDENT TODO Website</title>
+    <title>D06 Value Noise - Minyoung Cho</title>
 
     <!-- Normalize the difference across browsers  https://necolas.github.io/normalize.css/ -->
     <link rel="stylesheet" href="../external/normalize.css">
@@ -69,17 +69,48 @@
 
     <div class="portfolio-item-individual">
         <h2>Project Overview</h2>
-        <p>Provide a brief description of the project, its purpose, and what you aimed to achieve.</p>
+        <p>
+            In this project, I implemented a procedural Value Noise generation pipeline in C++ and visualized the results using OpenGL shaders.
+            Value noise maps discrete coordinates to random values using a permutation hash function, then interpolates between them (linear for 1D, bilinear for 2D, and trilinear for 3D) to produce smooth gradients.
+            The demo includes various procedural patterns like Fractal Sum, Turbulence, Marble, and Wood, along with customizable interpolation smoothing methods (Linear, Cosine, Smoothstep, and Quintic).
+        </p>
 
         <h2>Tasks Completed</h2>
         <ul>
-            <li>Describe the tasks you completed for this project.</li>
-            <li>Be specific about your contributions and the technologies used.</li>
+            <li>
+                <strong>N-Dimensional Noise (1D, 2D, 3D):</strong> Built a templated <code>ValueNoise</code> class supporting linear, bilinear, and trilinear interpolation depending on the noise dimension.
+            </li>
+            <li>
+                <strong>Permutation Hashing:</strong> Utilized a randomly shuffled permutation table generated at construction time to perform fast, cache-friendly grid hashing (<code>PermutationHash.hpp</code>). This enables seamless, tileable coordinate wrapping based on power-of-two period sizes.
+            </li>
+            <li>
+                <strong>Interpolation Smoothing:</strong> Programmed math functions to apply different interpolation curves (Linear, Cosine, Smoothstep, and Quintic/fade) to smooth out the transition boundary between grid nodes.
+            </li>
+            <li>
+                <strong>OpenGL Shader Integration:</strong> Developed <code>simple.vert</code> and <code>simple.frag</code> GLSL shaders to render generated textures on a full-screen quad, scaling texture coordinates using uniform variables to verify tiling properties.
+            </li>
+            <li>
+                <strong>Dynamic Texture Uploading:</strong> Added an optimized <code>UploadAsRGBA</code> method to the <code>Texture</code> class, utilizing <code>glTexSubImage2D</code> for fast, real-time CPU-to-GPU pixel data uploads.
+            </li>
+            <li>
+                <strong>Job System Integration (Desktop):</strong> Integrated a multi-threaded C++ thread pool (<code>JobSystem</code>) using <code>std::thread</code>, mutexes, and condition variables to parallelize noise calculations on desktop platforms.
+            </li>
+            <li>
+                <strong>Multi-Frame Slicing (Web):</strong> Implemented a timed slice generator as a fallback for platforms that do not support multithreading (like Web/Emscripten). This distributes the computation over multiple frames so that the browser tab doesn't freeze during high-resolution texture generation.
+            </li>
+            <li>
+                <strong>ImGui Controls:</strong> Integrated controls to dynamically change the period size, smooth method, texture resolution, tiling scale, and pattern types (Plain Value, Fractal Sum, Turbulence, Marble, Wood) with real-time feedback.
+            </li>
         </ul>
 
         <h2>Reflection</h2>
-        <p>Reflect on the project, discussing any challenges faced, solutions implemented, and what you learned from the
-            experience.</p>
+        <p>
+            One of the primary challenges was ensuring that the noise texture tiles seamlessly when repeated.
+            By enforcing power-of-two dimensions and utilizing a bitwise mask (e.g. <code>x & (period - 1)</code>), I aligned the permutation lookup wrapper perfectly. This guarantees that sampling at the right edge blends identically with the left edge.
+        </p>
+        <p>
+            Another major learning point was handling the computational performance discrepancy between desktop and web builds. While the multi-threaded <code>JobSystem</code> yields instantaneous updates on desktop, web platforms struggle with standard threads. The multi-frame timed slicing state machine solved this beautifully, allowing the demo to remain interactive on the web without dropping frames.
+        </p>
     </div>
 
     <div class="portfolio-item-individual">
@@ -89,19 +120,18 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <a href="mailto:my.email@digipen.edu" class="footer__link">my.email@digipen.edu</a>
+        <a href="mailto:minyoung7160@gmail.com" class="footer__link">minyoung7160@gmail.com</a>
         <ul class="social-list">
             <li class="social-list__item">
-                <a class="social-list__link" href="https://linkedin.com/in/mylinkedinid">
+                <a class="social-list__link" href="https://www.linkedin.com/in/minyoung-cho-aaaa47381/">
                     <i class="fab fa-linkedin"></i>
                 </a>
             </li>
             <li class="social-list__item">
-                <a class="social-list__link" href="https://github.com/mygithubid">
+                <a class="social-list__link" href="https://github.com/MinyoungCho22">
                     <i class="fab fa-github"></i>
                 </a>
             </li>
-            <!-- Want to list more? search : https://fontawesome.com/v5/search?ic=brands -->
         </ul>
     </footer>
 
