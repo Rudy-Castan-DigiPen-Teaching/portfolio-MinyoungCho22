@@ -10,7 +10,7 @@
 
     <!-- Help auto scale for desktop & mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUDENT TODO Website</title>
+    <title>D05 Shadow Mapping - Minyoung Cho</title>
 
     <!-- Normalize the difference across browsers  https://necolas.github.io/normalize.css/ -->
     <link rel="stylesheet" href="../external/normalize.css">
@@ -69,17 +69,45 @@
 
     <div class="portfolio-item-individual">
         <h2>Project Overview</h2>
-        <p>Provide a brief description of the project, its purpose, and what you aimed to achieve.</p>
+        <p>
+            In this project, I implemented real-time Shadow Mapping in a custom C++ graphics framework utilizing OpenGL.
+            Shadow mapping is a multi-pass technique where we first render the scene's depth from the perspective of the light source (which is treated as a camera) into a custom Depth Framebuffer Object (FBO).
+            In the second pass, we render the scene from the spectator camera's viewpoint, transforming each fragment's position into the light's coordinate system to sample the depth texture and determine whether the fragment is in shadow.
+        </p>
 
         <h2>Tasks Completed</h2>
         <ul>
-            <li>Describe the tasks you completed for this project.</li>
-            <li>Be specific about your contributions and the technologies used.</li>
+            <li>
+                <strong>FrameBuffer Class Implementation:</strong> Developed the <code>FrameBuffer</code> class in C++ to manage custom render targets, allowing seamless binding, unbinding, and attachment of color and depth textures (FBO).
+            </li>
+            <li>
+                <strong>Depth and Color Textures:</strong> Extended the <code>Texture</code> wrapper class to support depth map allocation with various bit sizes (16, 24, and 32-bit components) and custom comparison modes/filters (<code>GL_COMPARE_REF_TO_TEXTURE</code>, <code>GL_LEQUAL</code>).
+            </li>
+            <li>
+                <strong>Light Camera Matrix Calculations:</strong> Programmed high-performance basis-vector conversions inside the <code>Camera</code> class, computing <code>ViewMatrix</code> and <code>ToWorldMatrix</code> transformation matrices.
+            </li>
+            <li>
+                <strong>Multi-Pass Rendering System:</strong> Implemented the dual-pass rendering loop: the first pass renders to the depth FBO with front-face culling to mitigate shadow acne, and the second pass renders to the screen with back-face culling and custom shadow sampling.
+            </li>
+            <li>
+                <strong>Projection Shadow Mapping Shaders:</strong> Programmed GLSL vertex and fragment shaders utilizing <code>sampler2DShadow</code> and <code>textureProj</code> to perform perspective-divided depth comparisons, incorporating support for suppressing shadows behind the light.
+            </li>
+            <li>
+                <strong>Visual Debug Helpers:</strong> Created interactive visualizers to render the light's frustum as a transformed wireframe cube and display the depth texture mapped onto a screen-aligned quad.
+            </li>
+            <li>
+                <strong>Atmospheric Effects:</strong> Applied exponential fog calculations based on fragment distance and custom colors, along with gamma correction ($2.2$).
+            </li>
         </ul>
 
         <h2>Reflection</h2>
-        <p>Reflect on the project, discussing any challenges faced, solutions implemented, and what you learned from the
-            experience.</p>
+        <p>
+            One of the primary challenges was handling "shadow acne"—self-shadowing patterns caused by limited depth precision.
+            I resolved this by rendering front-facing geometry instead of back-facing geometry during the depth map pass (using front-face culling), and adding a tunable slope-scaled depth bias via <code>glPolygonOffset</code>.
+        </p>
+        <p>
+            Additionally, constructing the transformation matrices for the light camera from basic orientation vectors without using generic inverse operations was highly educational. It showed how matrix properties (like orthonormality) can be used to construct the inverse view matrix (the world matrix) directly.
+        </p>
     </div>
 
     <div class="portfolio-item-individual">
@@ -89,19 +117,18 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <a href="mailto:my.email@digipen.edu" class="footer__link">my.email@digipen.edu</a>
+        <a href="mailto:minyoung7160@gmail.com" class="footer__link">minyoung7160@gmail.com</a>
         <ul class="social-list">
             <li class="social-list__item">
-                <a class="social-list__link" href="https://linkedin.com/in/mylinkedinid">
+                <a class="social-list__link" href="https://www.linkedin.com/in/minyoung-cho-aaaa47381/">
                     <i class="fab fa-linkedin"></i>
                 </a>
             </li>
             <li class="social-list__item">
-                <a class="social-list__link" href="https://github.com/mygithubid">
+                <a class="social-list__link" href="https://github.com/MinyoungCho22">
                     <i class="fab fa-github"></i>
                 </a>
             </li>
-            <!-- Want to list more? search : https://fontawesome.com/v5/search?ic=brands -->
         </ul>
     </footer>
 
