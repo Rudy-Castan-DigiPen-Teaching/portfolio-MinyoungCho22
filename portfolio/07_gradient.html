@@ -9,7 +9,7 @@
     <link rel="icon" type="image/svg+xml" href="../img/face.jpg">
     <!-- Help auto scale for desktop & mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUDENT TODO Website</title>
+    <title>D07 Gradient Noise - Minyoung Cho</title>
 
     <!-- Normalize the difference across browsers  https://necolas.github.io/normalize.css/ -->
     <link rel="stylesheet" href="../external/normalize.css">
@@ -68,17 +68,38 @@
 
     <div class="portfolio-item-individual">
         <h2>Project Overview</h2>
-        <p>Provide a brief description of the project, its purpose, and what you aimed to achieve.</p>
+        <p>
+            In this project, I implemented hardware-accelerated Improved 3D Perlin Gradient Noise on the GPU using GLSL shaders.
+            Gradient noise defines pseudo-random gradient vectors at grid corners, computing the final value through dot products and interpolation.
+            Unlike CPU-based generation, this project utilizes an offscreen framebuffer with a single-channel float texture (<code>R32F</code>) to compute noise values on-the-fly, allowing high-resolution real-time generation and seamless tiling.
+        </p>
 
         <h2>Tasks Completed</h2>
         <ul>
-            <li>Describe the tasks you completed for this project.</li>
-            <li>Be specific about your contributions and the technologies used.</li>
+            <li>
+                <strong>Graphics Framework Extension:</strong> Enhanced the <code>Texture</code> and <code>FrameBuffer</code> classes to support floating-point color formats (<code>RGBA8</code>, <code>RGBA32F</code>, <code>R32F</code>) for high-precision offscreen storage.
+            </li>
+            <li>
+                <strong>Improved Perlin Noise GLSL Implementation:</strong> Developed a GPU-based 3D Perlin noise shader utilizing the quintic smoothing/fading curve (<code>6t^5 - 15t^4 + 10t^3</code>) and 12 fixed gradient directions cycled periodically.
+            </li>
+            <li>
+                <strong>Real-Time Noise Patterns:</strong> Programmed five distinct procedural patterns directly in GLSL: Plain Gradient, Fractal Sum, Turbulence, Marble (utilizing <code>gl_FragCoord.x</code> for column-relative sin waves), and Wood.
+            </li>
+            <li>
+                <strong>Seamless Tiling:</strong> Configured a bitwise-and coordinate wrapping method matching the period size (64) to ensure the noise tiles seamlessly when repeated on a surface.
+            </li>
+            <li>
+                <strong>2D Slice & 3D Terrain Visualization:</strong> Implemented texture rendering for flat 2D noise visual slices and developed <code>surface.vert</code> to dynamically displace a flat plane mesh into a 3D terrain representation.
+            </li>
         </ul>
 
         <h2>Reflection</h2>
-        <p>Reflect on the project, discussing any challenges faced, solutions implemented, and what you learned from the
-            experience.</p>
+        <p>
+            Implementing the entire noise pipeline on the GPU highlighted the performance benefits of shader-based generation over CPU calculations. While CPU-based Value Noise required chunked slicing or multithreading to avoid freezing, GPU-based Gradient Noise computes millions of pixels instantly at high framerates.
+        </p>
+        <p>
+            Aligning the noise displacement visually with the color map on the 3D surface mesh was a key learning experience. It required using the same tiled texture coordinates in both <code>surface.vert</code> (for physical displacement) and <code>simple.frag</code> (for visual coloring).
+        </p>
     </div>
 
     <div class="portfolio-item-individual">
@@ -88,19 +109,18 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <a href="mailto:my.email@digipen.edu" class="footer__link">my.email@digipen.edu</a>
+        <a href="mailto:minyoung7160@gmail.com" class="footer__link">minyoung7160@gmail.com</a>
         <ul class="social-list">
             <li class="social-list__item">
-                <a class="social-list__link" href="https://linkedin.com/in/mylinkedinid">
+                <a class="social-list__link" href="https://www.linkedin.com/in/minyoung-cho-aaaa47381/">
                     <i class="fab fa-linkedin"></i>
                 </a>
             </li>
             <li class="social-list__item">
-                <a class="social-list__link" href="https://github.com/mygithubid">
+                <a class="social-list__link" href="https://github.com/MinyoungCho22">
                     <i class="fab fa-github"></i>
                 </a>
             </li>
-            <!-- Want to list more? search : https://fontawesome.com/v5/search?ic=brands -->
         </ul>
     </footer>
 
